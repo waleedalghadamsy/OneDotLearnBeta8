@@ -1,0 +1,31 @@
+﻿@page
+@model OneDotLearnWebApp.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "الدورات";
+}
+
+<div class="text-center">
+    <h1 class="display-4">قائمة الدورات</h1>
+</div>
+<br />
+<div class="container my-4">
+    <div class="row g-3">
+        @{
+            // Loop for all courses
+                // Loop for 4 courses in row
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="d-flex justify-content-between mt-2">
+                        <div class="text-box text-left">Text Left</div>
+                        <div class="text-box text-right">Text Right</div>
+                    </div>
+                </div>
+            </div>
+                // Row end
+            // Courses end
+        }
+        
+    </div>
+</div>

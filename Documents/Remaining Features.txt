@@ -1,0 +1,27 @@
+Trainees
+	Register
+		Email confirmation
+	List
+	Details
+	Modify
+	Change Password
+	Search
+
+Courses
+	List
+	Add
+	Details
+	Modify
+	Change Fees
+	Search
+
+Cycles
+	List
+	Add
+	Details
+	Modify
+
+Payment
+	List
+	Add
+	Search

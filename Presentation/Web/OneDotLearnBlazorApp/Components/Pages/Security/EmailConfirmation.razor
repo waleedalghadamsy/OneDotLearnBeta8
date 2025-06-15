@@ -1,0 +1,152 @@
+﻿@page "/confirmemail/{TraineeInfo}"
+@rendermode @(new InteractiveServerRenderMode(false))
+
+@* @implements IDisposable *@
+
+@using System.Text;
+@* @using System.Net.Mail; *@
+@using MailKit;
+@using MailKit.Net.Smtp;
+@using MimeKit;
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using OneDotLearnCore.Essential
+@using OneDotLearnCore.Security
+@using OneDotLearnCore.Training
+@using OneDotLearnWebApp.Helpers
+@inject PersistentComponentState ComponentState
+@inject NavigationManager NavigationManager
+@inject ILoggerFactory _loggerFactory
+@inject SecurityHelper secHelper
+@inject TrainingCategoriesHelper trnCatHelper
+@inject LoggerHelper logHlpr
+
+<PageTitle>تأكيد البريد الإلكتروني</PageTitle>
+
+<h3>
+    <span style="border-radius:5pt; font-size:15pt; background-color:burlywood">
+        تأكيد البريد الإلكتروني
+    </span>
+</h3>
+
+<EditForm Model="aTrainee" FormName="EmailConfirmationForm">
+    <div>
+        <label>
+            @formInfo
+        </label>
+    </div>
+    <div>
+        <label>
+            يرجى فتح الرسالة ثم كتابة الرمز الموجود فيها هنا
+            <InputText @bind-Value="sentCode" style="border-radius:5pt;" />
+        </label>
+    </div>
+    <div>
+        <button disabled="@isDisabled" class="text-center" style="width:200px; border-radius:5pt; font-size:15pt; color:blue; background-color:aquamarine" @onclick="ConfirmEmailAsync">@btnTtl</button>
+    </div>
+    <div>
+        <span style="color:@msgClr">@cnfrmResult</span>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string TraineeInfo { get; set; }
+    Trainee aTrainee;
+    string formInfo, trnName, trnEmail, trnGndr, rndCode, btnTtl, sentCode, cnfrmResult, msgClr;
+    bool isDisabled = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        aTrainee = new Trainee();
+
+        formInfo = $"أرسلنا إليك الآن رمز تأكيد عنوان بريدك في رسالة إلى بريدك الإلكتروني";
+
+        msgClr = ""; cnfrmResult = "";
+
+        var barLoc = TraineeInfo.IndexOf('|');
+        trnEmail = TraineeInfo.Substring(0, barLoc); trnGndr = TraineeInfo.Substring(barLoc);
+
+        btnTtl = trnGndr == "M" ? "أكد عنوان بريدك" : "أكدي عنوان بريدك";
+
+        GenerateRandomCode();
+
+        await SendEmailAsync();
+    }
+
+    private void GenerateRandomCode()
+    {
+        int codeLen = 0, rndSlctr1, rndSlctr2;
+        Random rnd = new Random(DateTime.Now.GetHashCode());
+        StringBuilder strSb = new StringBuilder();
+
+        do
+        {
+            rndSlctr1 = rnd.Next(1, 4);
+
+            switch(rndSlctr1)
+            { 
+                case 1:
+                    rndSlctr2 = rnd.Next('A', 'Z' + 1);
+                    strSb.Append($"{(char)rndSlctr2}");
+                    break;
+                case 2:
+                    rndSlctr2 = rnd.Next('a', 'z' + 1);
+                    strSb.Append($"{(char)rndSlctr2}");
+                    break;
+                case 3:
+                    rndSlctr2 = rnd.Next('0', '9' + 1);
+                    strSb.Append($"{(char)rndSlctr2}");
+                    break;
+            };
+        } while (++codeLen < 6);
+
+        rndCode = strSb.ToString();
+    }
+
+    private async Task SendEmailAsync()
+    {
+        try
+        {
+            var strSb = new StringBuilder();
+
+            strSb.Append("<span style='font=size:25pt'>هذه رسالة من موقع شركة أول المستقبل المتقدم للتدريب.</span><br />");
+            strSb.Append("لقد قمت بإنشاء حسابك بنجاح. وبقي خطوة واحدة وهي تفعيل الحساب. <br />");
+            strSb.Append("انسخ هذا الرمز وضعه في صفحة تأكيد البريد في الموقع. <br />");
+            strSb.Append($"<span style='color:white; background-color:black'><b>{rndCode}</b></span>");
+
+            var bodyBuilder = new BodyBuilder() { HtmlBody = strSb.ToString() };
+
+            var mailMsg = new MimeMessage();
+
+            mailMsg.From.Add(new MailboxAddress("One Dot Learn", "info@onedotlearn.com"));
+            mailMsg.From.Add(new MailboxAddress(trnName, trnEmail));
+            mailMsg.Subject = "لتفعيل حسابك في موقع شركة أول المستقبل المتقدم للتدريب";
+            mailMsg.Body = bodyBuilder.ToMessageBody();
+
+            using var smtpClnt = new SmtpClient();
+
+            await smtpClnt.ConnectAsync("smtp.gmail.com", 587);
+            await smtpClnt.AuthenticateAsync("walghadamsy@gmail.com", "1WorkingWell");
+
+            await smtpClnt.SendAsync(mailMsg); await smtpClnt.DisconnectAsync(true);
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+
+    private void ConfirmEmailAsync()
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            
+            throw;
+        }
+    }
+}

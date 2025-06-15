@@ -1,0 +1,290 @@
+﻿@page "/registertrainee"
+@rendermode @(new InteractiveServerRenderMode(false))
+
+@* @implements IDisposable *@
+
+@using OneDotLearnCore.Essential
+@using OneDotLearnCore.Security
+@using OneDotLearnCore.Training
+@using OneDotLearnWebApp.Helpers
+@inject PersistentComponentState ComponentState
+@inject NavigationManager NavigationManager
+@inject ILoggerFactory _loggerFactory
+@inject SecurityHelper secHelper
+@inject TrainingCategoriesHelper trnCatHelper
+@inject LoggerHelper logHlpr
+
+<PageTitle>تسجيل متدرب جديد</PageTitle>
+
+<h3>
+    <span style="border-radius:5pt; font-size:15pt; background-color:burlywood">
+        تسجيل متدرب جديد
+    </span>
+</h3>
+
+<EditForm Model="aTrainee" FormName="RegisterTraineeForm">
+    <div>
+        <label>
+            الاسم الأول
+            <InputText @bind-Value="aTrainee.ArFirstName" style="border-radius:5pt;" />
+        </label>
+        <label>
+            اسم الأب
+            <InputText @bind-Value="aTrainee.ArFatherName" style="border-radius:5pt;" />
+        </label>
+        <label>
+            اللقب
+            <InputText @bind-Value="aTrainee.ArFamilyName" style="border-radius:5pt;" />
+        </label>
+    </div>
+    <br />
+    <div>
+        <label>
+            النوع
+            <InputRadioGroup @bind-Value="aTrainee.Gender">
+                <InputRadio Value="Gender.Male" />ذكر
+                <InputRadio Value="Gender.Female" />أنثى
+            </InputRadioGroup>
+        </label>
+    </div>
+    <br />
+    <div>
+        <label>
+            بلدك الأصلي (بلد الولادة)
+            <select @onchange="OrigCountrySpecified" style="border-radius:5pt;">
+                <option value="-1" selected>-- اختر --</option>
+
+            </select>
+        </label>
+        <label>
+            بلد الإقامة الحالي
+            <select @onchange="ResideCountrySpecified" style="border-radius:5pt;">
+                <option value="-1" selected>-- اختر --</option>
+
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            عنوان البريد الإلكتروني
+            <InputText @bind-Value="email" style="border-radius:5pt;" />
+        </label>
+        <label>
+            رقم الهاتف النقال
+            <InputText @bind-Value="mobilePhone" style="border-radius:5pt;" />
+        </label>
+    </div>
+    <div>
+        <label>
+            المستوى الدراسي
+            <select @onchange="EduLevelSpecified" style="border-radius:5pt;">
+                <option value="-1" selected>-- اختر --</option>
+                <option value="1">الشهادة الإعدادية (المستوى التاسع)</option>
+                <option value="2">الشهادة الثانوية (المستوى الثاني عشر)</option>
+                <option value="3">أدرس في المرحلة الجامعية</option>
+                <option value="4">شهادة البكالوريوس</option>
+                <option value="5">أدرس الماجستير</option>
+                <option value="6">شهادة الماجستير</option>
+                <option value="7">أدرس الدكتوراه</option>
+                <option value="8">شهادة الدكتوراه</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            الموضوعات التقنية الأساسية التي تهمك
+            <select @onchange="TopLevelTopicSpecified" style="border-radius:5pt;">
+                <option value="-1" selected>-- اختر --</option>
+                @foreach(var tpLvlTpc in trnCatHelper.TopTrainingCategories)
+                {
+                    <option value="@tpLvlTpc.Id">@tpLvlTpc.Title</option>
+                }
+            </select>
+        </label>
+        <label>
+            الموضوعات التقنية الفرعية التي تهمك
+            <select disabled="@isSubTopDisabled" @onchange="SubLevelTopicSpecified" style="border-radius:5pt;">
+                <option value="-1" selected>-- اختر --</option>
+                @foreach (var sbLvlTpc in subLvlTopics)
+                {
+                    <option value="@sbLvlTpc.Key">@sbLvlTpc.Value</option>
+                }
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            اسم الدخول إلى المنظومة (باللغة الإنجليزية)
+            <InputText @bind-Value="aTrainee.User.LoginName" style="border-radius:5pt;" />
+        </label>
+    </div>
+    <div>
+        <span style="font-size:10pt">شروط كلمة المرور:</span>
+        <ul style="font-size:10pt">
+            <li>يجب ألا تقل عن ثماني خانات.</li>
+            <li>يجب أن تحتوي على حروف وأرقام ورموز.</li>
+            <li>يجب أن تحتوي على الأقل على حرف واحد إنجليزي كبير وأيضا على الأقل حرف واحد إنجليزي صغير.</li>
+            <li>.يجب ألا تحتوي على فراغات</li>
+        </ul>
+        <label>
+            كلمة المرور
+            <InputText type="password" @bind-Value="trnUser.OriginalPassword" style="border-radius:5pt;" />
+        </label>
+        <label>
+            أعد كلمة المرور
+            <InputText type="password" @bind-Value="confirmPassword" style="border-radius:5pt;" />
+        </label>
+    </div>
+    <div>
+        <button disabled="@isDisabled" class="text-center" style="width:200px; border-radius:5pt; font-size:15pt; color:blue; background-color:aquamarine" @onclick="AddNewTraineeAsync">سجل الحساب</button>
+    </div>
+    <div>
+        <span style="color:@msgClr">@addResult</span>
+    </div>
+    <div>
+        <span>@emlCnfrmMsg</span>
+    </div>
+</EditForm>
+
+
+@code {
+    Trainee aTrainee;
+    User trnUser;
+    string strTrnNatId, strEdLvlId, strTopLvlTpcId, strSubLvlTpcId, email, mobilePhone, confirmPassword, addResult, msgClr,
+            emlCnfrmMsg = "", dsplyHide="none";
+    int selTpId, selSubTpId;
+    IEnumerable<KeyValuePair<int, string>> subLvlTopics;
+    bool isDisabled = false, isSubTopDisabled = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        aTrainee = new Trainee() { User = new User() }; trnUser = aTrainee.User;
+
+        subLvlTopics = new List<KeyValuePair<int, string>>();
+
+        msgClr = ""; addResult = "";
+    }
+
+    private void OrigCountrySpecified(ChangeEventArgs e)
+    {
+        strTrnNatId = e.Value.ToString();
+    }
+
+    private void ResideCountrySpecified(ChangeEventArgs e)
+    {
+        strTrnNatId = e.Value.ToString();
+    }
+
+    private void EduLevelSpecified(ChangeEventArgs e)
+    {
+        strEdLvlId = e.Value.ToString();
+    }
+
+    private void TopLevelTopicSpecified(ChangeEventArgs e)
+    {
+        strTopLvlTpcId = e.Value.ToString(); selTpId = int.Parse(strTopLvlTpcId);
+
+        var subTopics = trnCatHelper.SubTrainingCategories.Where(sbl => sbl.Id == selTpId);
+
+        if (subTopics != null && subTopics.Any())
+        {
+            isSubTopDisabled = false;
+            subLvlTopics = subTopics.Select(sbt => new KeyValuePair<int, string>(sbt.Id, sbt.Title));
+        }
+        else
+        {
+            isSubTopDisabled = true;
+            subLvlTopics = new List<KeyValuePair<int, string>>();
+        }
+    }
+
+    private void SubLevelTopicSpecified(ChangeEventArgs e)
+    {
+        strSubLvlTpcId = e.Value.ToString();
+    }
+
+    private async Task AddNewTraineeAsync()
+    {
+        try
+        {
+            if (trnUser.LoginName.Trim().Any(ch => ch == ' '))
+            {
+                msgClr = "red";
+                addResult = "يجب أن يكون اسم الدخول بدون مسافات";
+
+                return;
+            }
+
+            var isPrvUsed = await secHelper.IsLoginNameUsedAsync(trnUser.LoginName);
+
+            if (!isPrvUsed)
+            {
+                if (string.Compare(trnUser.OriginalPassword, confirmPassword, StringComparison.Ordinal) == 0)
+                {
+                    if (secHelper.IsPasswordCompliant(trnUser.OriginalPassword))
+                    {
+                        isDisabled = true;
+
+                        trnUser.Role = UserRole.Trainee;
+
+                        var rslt = await secHelper.AddUserAsync(trnUser);
+
+                        if (rslt.IsSuccessful)
+                        {
+                            msgClr = "green";
+                            addResult = "نجح تسجيل المتدرب الجديد.";
+
+                            emlCnfrmMsg = aTrainee.Gender == Gender.Male ?
+                                                "ستنقل الآن إلى صفحة أخرى لتأكيد البريد الإلكتروني" :
+                                                "ستنقلين الآن إلى صفحة أخرى لتأكيد البريد الإلكتروني";
+
+                            Thread.Sleep(1500);
+
+                            NavigationManager.NavigateTo($"/confirmemail/{email}");
+                        }
+                        else
+                        {
+                            isDisabled = false;
+
+                            msgClr = "red";
+                            addResult = "حدث خطأ أثناء تسجيل المتدرب الجديد";
+                        }
+                    }
+                    else
+                    {
+                        isDisabled = false;
+
+                        msgClr = "red";
+                        addResult = "كلمة المرور مخالفة للشروط";
+                    }
+                }
+                else
+                {
+                    isDisabled = false;
+
+                    msgClr = "red";
+                    addResult = "كلمة المرور غير متطابقة.";
+                }
+            }
+            else
+            {
+                isDisabled = false;
+
+                msgClr = "red";
+                addResult = "المعذرة. اسم الدخول مستخدم من قبل.";
+            }
+        }
+        catch (Exception ex)
+        {
+            isDisabled = false;
+
+            msgClr = "red";
+            addResult = string.Format($"وقع خطأ عند تسجيل المتدرب الجديد");
+
+            logHlpr.LogError(ex);
+            //throw;
+        }
+     }
+
+    //public void Dispose() => subscription?.Dispose();
+}

@@ -1,0 +1,41 @@
+﻿Pages
+	Courses
+		Add
+		List
+		View
+		Edit
+		SetFees
+
+	Cycles
+		Add
+		List
+		Edit
+		Enrollment
+			Enroll
+			List
+			Cancel
+
+	Instructors
+
+	Payments
+
+	Security
+		Add
+		List
+		View
+		SignIn
+		SignOut
+		ChangePassword
+
+	Trainees
+		Register
+		List
+		View
+		Edit
+
+Menus
+	Administrator
+
+	Instructor
+	
+	Trainee

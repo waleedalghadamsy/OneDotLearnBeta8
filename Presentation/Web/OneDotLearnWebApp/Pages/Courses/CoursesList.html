@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollable Grid with Clickable Boxes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .scrollable-grid {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .clickable-box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .clickable-box:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+        .image-box {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+
+        .text-box {
+            margin: 5px 0;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <h1 class="text-center">Scrollable Grid with Clickable Boxes</h1>
+        <div class="scrollable-grid row g-3">
+            <!-- Example Row -->
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+
+            <!-- Example Row -->
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="clickable-box">
+                    <div class="text-box">Text Above Image</div>
+                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="image-box">
+                    <div class="text-box text-left">Text Left</div>
+                    <div class="text-box text-right">Text Right</div>
+                </div>
+            </div>
+            <!-- Add more rows dynamically as needed -->
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

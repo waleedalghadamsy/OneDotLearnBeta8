@@ -1,0 +1,440 @@
+﻿@page
+@model OneDotLearnWebApp.Pages.Trainees.RegistrationModel
+@{
+    ViewData["Title"] = "إنشاء حساب جديد";
+}
+<div class="text-center">
+    <h1 class="display-4">إنشاء حساب جديد</h1>
+</div>
+<br />
+<form id="newUserForm" role="form" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="saveSucceeded"
+      data-ajax-failure="saveFailed">
+    <div style ="display:@Model.StrIsEssentialMissing">
+        <span style="color:red">المعذرة. وقع خطأ. من فضلك حاول مرة أخرى</span>
+    </div>
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <div class="row">
+            <div class="col-3">
+                <input type="text" class="form-control" asp-for="Trainee.LtnFirstName" placeholder="الاسم الأول" required />
+                <span asp-validation-for="Trainee.LtnFirstName"></span>
+                <div class="invalid-feedback">
+                    اكتب الاسم الأول
+                </div>
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" asp-for="Trainee.LtnFatherName" placeholder="اسم الأب" />
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" asp-for="Trainee.LtnFamilyName" placeholder="لقب العائلة" required />
+                <span asp-validation-for="Trainee.LtnFamilyName"></span>
+                <div class="invalid-feedback">
+                    اكتب لقب العائلة
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <div class="row">
+            <div class="col-1">
+                <label><b>النوع</b></label>
+            </div>
+            <div class="col-1 form-check form-check-inline">
+                <input type="radio" class="form-check-input" id="trnMale" asp-for="TraineeGender" value="M">ذكر
+            </div>
+            <div class="col-1 form-check form-check-inline">
+                <input type="radio" class="form-check-input" id="trnFemale" asp-for="TraineeGender" value="F">أنثى
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <input id="trnBirthDate" type="text" class="form-control col-3" asp-for="TraineeBirthDate" placeholder="تاريخ الميلاد" style="width: 500px;">
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <div class="row">
+            <div class="col-4"><label><b>ما هو بلدك الأصلي؟</b></label></div>
+            <div class="col-2">
+                <select id="natsList" class="form-control" asp-for="Trainee.NationalityId" asp-items="Model.CountriesList">
+                </select>
+                <span asp-validation-for="Trainee.NationalityId"></span>
+            </div>
+            @* <div class="col-3">
+                <input id="otrNatTxt" type="text" class=form-control asp-for="OtherNationality" placeholder="هل توجد جنسية أخرى؟">
+            </div> *@
+        </div>
+        <div class="row">
+            <div class="col-4"><label><b>ما هو بلد الإقامة الحالي؟</b></label></div>
+            <div class="col-2">
+                <select id="cntrsList" class="form-control" asp-for="Trainee.ResidenceCountryId" asp-items="Model.CountriesList">
+                </select>
+                <span asp-validation-for="Trainee.ResidenceCountryId"></span>
+            </div>
+            <div class="col-3">
+                <input id="otrCntrTxt" type="text" class=form-control asp-for="OtherCountry" placeholder="هل تقيم في بلد آخر غير الاختيارات المعروضة؟">
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <div class=row>
+            <div class="col-3">
+                <label><b>حدد المستوى الدراسي</b></label>
+                <select id="eduLevelsLst" class="form-control" asp-for="SelectedEduLevel" required>
+                    <option value="1">المرحلة المتوسطة (الإعدادية -- السنة التاسعة)</option>
+                    <option value="2">المرحلة الثانوية (السنة الثانية عشرة)</option>
+                    <option value="3">طالب جامعة</option>
+                    <option value="4">حصلت على البكالوريوس</option>
+                    <option value="5">أدرس الماجستير</option>
+                    <option value="6">حصلت على الماجستير</option>
+                    <option value="7">أدرس الدكتوراه</option>
+                    <option value="8">حصلت على الدكتوراه</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label></label>
+                <input id="acSpTxt" type="text" class="form-control" asp-for="Trainee.AcademicSpecialization" placeholder="ما هو تخصصك الأكاديمي؟" />
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <label><b>Contact Info</b></label>
+        <div class=row>
+            <div class="col-3">
+                <input type="email" asp-for="TraineeEmail" placeholder="Email" required />
+                <span asp-validation-for="TraineeEmail"></span>
+            </div>
+            <div class="col-3">
+                <input type="tel" asp-for="TraineeMobile" placeholder="Mobile phone" required />
+                <span asp-validation-for="TraineeMobile"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <label><b>Account Info</b></label>
+        <div class="row">
+            <div class=col>
+                <input type="text" id="userLoginName" asp-for="LoginName" onblur="checkLoginName()" placeholder="اكتب اسم الدخول (باللغة الإنجليزية)" required />
+                <span asp-validation-for="LoginName"></span>
+            </div>
+            <div id="loginNameErrDiv" class=col>
+                <label id="loginNameErrLbl" style="color:red">المعذرة. هذا الاسم مسجل. من فضلك اكتب اسما آخر.!</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input id="newPassword" type="password" asp-for="Password" onblur="validatePassword()" placeholder="اكتب كلمة المرور (بدون مسافات)" required />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="col-4">
+                <input id="confirmedPassword" type="password" onblur="validateConfirmedPassword()" placeholder="من فضلك أعد كلمة المرور" required />
+            </div>
+        </div>
+        <div class=row>
+            <div id="pwdErrDiv" style="color:red; font-size:13px; display:none;"></div>
+        </div>
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div style="display:@Model.StrIsEssentialDataReady" class="form-group">
+        <div class="row">
+            <div class="col-3 d-grid">
+                <button id="saveBtn" class="btn btn-primary">سجِّل البيانات</button>
+            </div>
+            <div id="saveRsltDiv" class="col-8"></div>
+        </div>
+    </div>
+</form>
+
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+@section Scripts {
+    <script type="text/javascript">
+        var capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var smLetters = "abcdefghijklmnopqrstuvwxyz";
+        var numerals = "0123456789";
+        var isPwdAcceptable = false;
+
+        $(function () {
+            var oneYrMilSec = 365.25 * 24 * 60 * 60 * 1000;
+            //Min. trainee age: 12 years
+            var minAge = 12;
+            var today = new Date(); var twelveYrsAgo = new Date(today.valueOf() - minAge * oneYrMilSec);
+
+            alert("Loaded");
+
+            alert("Before -- Login name div: ".concat(document.getElementById("loginNameErrDiv").style.display));
+            alert("Hiding elements...");
+
+            $("#progLangsDiv").hide(); $("#progExprDiv").hide(); $("#swTechsDiv").hide(); $("#dbExprDiv").hide();
+            $("#otrCntrTxt").hide(); $("#otrNatTxt").hide(); $("#spinnerIcon").hide(); $("#loginNameErrDiv").hide();
+
+            alert("After -- Login name div: ".concat(document.getElementById("loginNameErrDiv").style.display));
+            //document.getElementById("exmpModal").style.display = "none";
+
+            $("#cntrsList").change(function () {
+                if ($("#cntrsList").val() == "-1") {
+                    $("#otrCntrTxt").show();
+                } else {
+                    $("#otrCntrTxt").hide();
+                }
+            });
+
+            $("#natsList").change(function () {
+                if ($("#natsList").val() == "-1") {
+                    $("#otrNatTxt").show();
+                } else {
+                    $("#otrNatTxt").hide();
+                }
+            });
+
+            $("#eduLevelsLst").change(function () {
+                if ($("#eduLevelsLst").val() >= "3") {
+                    $("acSpTxt").show();
+                } else {
+                    $("acSpTxt").hide();
+                }
+            });
+
+            //document.getElementsByClassName("odsmdlclose")[0].onclick = function() {
+            //    document.getElementById("exmpModal").style.display = "none";
+        //};
+        });
+
+        function checkLoginName() {
+            try {
+                //alert("Checking login name...");
+
+                var loginNameJson = $("#userLoginName").val();
+
+                //alert(ilPlakaJson);
+
+                $("#loginNameErrDiv").hide();//css('display', 'none');
+                $("#saveBtn").prop('disabled', false);
+
+                //alert("Is login name empty?");
+
+                if (!loginNameJson) {
+                    return;
+                }
+
+                //alert("Does login name have spaces?");
+
+                if (loginNameJson.includes(" ")) {
+                    $("#loginNameErrLbl").text("Spaces are not acceptable in login name!");
+                    $("#loginNameErrDiv").css('display', 'block'); $("#saveBtn").prop('disabled', true);
+                    return;
+                }
+
+                var requestUrl = "/Users/IsLoginNameUsed&newLoginName=".concat(loginNameJson);
+
+                //alert(requestUrl);
+
+                //alert("Is login name already used?");
+
+                $.ajax({
+                    url: requestUrl,
+                    cache: false,
+                    type: 'GET',
+                    //data: { newLoginName: loginNameJson },
+                    async: true
+                }).
+                    done(function (r) {
+                        try {
+                            //alert("Check Done"); alert(r);
+
+                            if (r != null && r === true) {
+                                $("#loginNameErrorLabel").text("This login name is already used!");
+                                $("#loginNameErrorDiv").css('display', 'block');
+                                $("#saveBtn").prop('disabled', true);
+                            }
+                        } catch (e) {
+                            alert("Done error");
+                        }
+                    }).
+                    fail(function (err) {
+                        alert('Fail Error: ' + err.message);
+                    });
+            } catch (e) {
+                alert("Main function error");
+            }
+        };
+
+        function validatePassword() {
+            //alert("Validating...");
+
+            var newPwd = $("#newPassword").val();
+
+            $("#pwdErrDiv").html(""); $("#pwdErrDiv").css('display', 'none');
+
+            if (!newPwd) {
+                $("#newPassword").focus();
+                return;
+            }
+
+            var correctLength = newPwd.length >= 8;
+
+            if (!correctLength) {
+                $("#pwdErrDiv").html("Password is too short (must be at least 8 characters long)");
+                $("#pwdErrDiv").css('display', 'block'); $("#newPassword").focus();
+                return;
+            }
+
+            //alert("Checking caps...");
+
+            var capsUsed = false;
+
+            for (var i = 0; i < newPwd.length; i++) {
+                if (capLetters.indexOf(newPwd[i]) >= 0) {
+                    capsUsed = true; break;
+                }
+            }
+
+            if (!capsUsed) {
+                $("#pwdErrDiv").html("Password must contain at least 1 capital letter");
+                $("#pwdErrDiv").css('display', 'block'); $("#newPassword").focus();
+                return;
+            }
+
+            //alert("Checking smalls...");
+
+            var smlUsed = false;
+
+            for (var i = 0; i < newPwd.length; i++) {
+                if (smLetters.indexOf(newPwd[i]) >= 0) {
+                    smlUsed = true; break;
+                }
+            }
+
+            if (!smlUsed) {
+                $("#pwdErrDiv").html("Password must contain at least 1 small letter");
+                $("#pwdErrDiv").css('display', 'block'); $("#newPassword").focus();
+                return;
+            }
+
+            //alert("Checking digits...");
+
+            var nmrUsed = false;
+
+            for (var i = 0; i < newPwd.length; i++) {
+                if (numerals.indexOf(newPwd[i]) >= 0) {
+                    nmrUsed = true; break;
+                }
+            }
+
+            if (!nmrUsed) {
+                $("#pwdErrDiv").html("Password must contain at least 1 digit");
+                $("#pwdErrDiv").css('display', 'block'); $("#newPassword").focus();
+                return;
+            }
+
+            isPwdAcceptable = correctLength && capsUsed && smlUsed && nmrUsed;
+        };
+
+        function validateConfirmedPassword() {
+            $("#pwdErrDiv").html(""); $("#pwdErrDiv").css('display', 'none');
+
+            if (!$("#confirmedPassword").val()) {
+                $("#pwdErrDiv").html("Please confirm the new password");
+                $("#pwdErrDiv").css('display', 'block');
+                return;
+            }
+
+            //alert(isPwdAcceptable);
+
+            if (($("#newPassword").val() == $("#confirmedPassword").val()) && isPwdAcceptable) {
+            } else {
+                $("#pwdErrDiv").html("Please confirm the new password");
+                $("#pwdErrDiv").css('display', 'block');
+                return;
+            }
+        };
+
+        $("#traineeForm").submit(function () {
+            var selNatId = "Nat ID:".concat(("#natsList").val());
+            var selCntrId = "Res cntr ID:".concat(("#cntrsList").val());
+
+            alert("Submitting...".concat(selNatId).concat(" | ").concat(selCntrId));
+
+            //$("#closeModalBtn").hide(); $("#saveModal").modal("show");
+            $("#saveBtn").attr("disabled", "disabled");
+        });
+
+        function getSaveResult() {
+            try {
+
+                //alert("Getting results...");
+                //alert(window.location.pathname);
+
+                //var requestUrl = $("#rootDir").val() + "/OnlinePharmacy/Pharmacies/AddNew?handler=SaveResult";
+
+                var requestUrl = $("#pageUrl").concat("?handler=SaveResult");
+
+                //alert(requestUrl); alert(encodeURIComponent(requestUrl));
+
+                $.ajax({
+                    url: requestUrl,
+                    cache: false,
+                    type: 'GET',
+                    //data: { ilId: ilIdJson },
+                    //async: true
+                }).
+                    done(function (r) {
+                        try {
+                            //alert("Got save result"); alert(r);
+
+                            if (r != null) {
+                                //alert(r[0]); alert(r[1]);
+
+                                //This name already exists
+
+                                document.getElementById('saveRsltDiv').innerHTML = r;
+                            }
+
+                            setTimeout(function () {
+                                window.location.replace($(location).attr("href").concat("/Index"));
+                            }, 3000);
+                        } catch (e) {
+                            alert("Done error");
+                        }
+                    }).
+                    fail(function (err) {
+                        alert('Fail Error: ' + err.message);
+                    });
+            } catch (e) {
+                alert(e.message);
+            }
+        };
+
+        saveSucceeded = function () {
+            try {
+                //alert("Submit succeeded");
+
+                //getSaveResult();
+
+                //document.getElementById("exmpModal").style.display = "none";
+
+                alert("Save result: ".concat($("#infSaveResult").val()));
+
+                //$("#spinnerIcon").hide();
+                $("#saveRsltLbl").html($("#infSaveResult").val()); $("#closeModalBtn").show();
+
+                //alert("Result...");
+                //$("#spinnerIcon").hide();
+
+                //setTimeout(function(){
+                //    window.location.href = $("#rootUrl").val().concat("/SignIn");
+                //}, 3500);
+
+                //$("#saveBtn").prop("disabled", false);//.attr("disabled", "");
+                //$("#waitImg").hide();
+                //$(".fa-spin").css('display', 'none');
+            } catch (e) {
+                alert(e.message);
+            }
+        };
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model OneDotLearnWebApp.Pages.Security.SignInModel
+@{
+    Layout = "_SignInLayout";
+    ViewData["Title"] = "تسجيل الدخول";
+}
+<div class="text-center">
+    <h1 class="display-4">تسجيل الدخول</h1>
+</div>
+<br />
+<form id="signInForm" role="form" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="saveSucceeded"
+      data-ajax-failure="saveFailed">
+    <div class="text-center">
+        <input type="text" id="userLoginName" class="form-control" asp-for="SignInUser.LoginName" onblur="checkLoginName()"
+               placeholder="Login name" required />
+    </div>
+    <div class="text-center">
+        <input type="text" id="userPassword" class="form-control" asp-for="SignInUser.OriginalPassword" onblur="checkPassword()"
+               placeholder="Login name" required />
+    </div>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary">ادخل</button>
+        <img id="waitImg" src="/images/hold-on.gif" width="30" />
+    </div>
+</form>
+
+<script src="~/lib/jquery/jquery.min.js"></script>
+@section Scripts {
+    <script type="text/javascript">
+        $(function() {
+            //alert("Loaded");
+
+            $("#waitImg").show();
+        });
+
+        $("#signInForm").submit(function () {
+            $("#waitImg").show(); //$("#saveBtn").attr("disabled", "disabled");
+        });
+    </script>
+}

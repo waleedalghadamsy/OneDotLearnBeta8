@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="JobInterviews\**" />
+    <EmbeddedResource Remove="JobInterviews\**" />
+    <None Remove="JobInterviews\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Financials\CyclePayment.cs" />
+    <Compile Remove="People\Interviewee.cs" />
+    <Compile Remove="People\Interviewer.cs" />
+    <Compile Remove="Training\Classroom.cs" />
+    <Compile Remove="Training\Provider.cs" />
+  </ItemGroup>
+
+</Project>

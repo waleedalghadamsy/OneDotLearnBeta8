@@ -1,0 +1,15 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<form method="post">
+    <div class="text-center">
+        <input type="text" asp-for="NewUser.OriginalPassword" />
+        <br />
+        <textarea asp-for="NewUser.HashedPassword" rows="3"></textarea>
+    </div>
+    <div>
+        <button type="submit">Hash</button>
+    </div>
+</form>

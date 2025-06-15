@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ForDataSeeding\CountriesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\AiCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\AppliedComputingCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\CloudComputingCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\CourseDetailsPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\DataScienceCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\DbMgmtCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\GraphicsCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\ManagementCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\NetworkingCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\SecurityCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CoursesSeeding\WebDesignCoursesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\CurrenciesPopulator.cs" />
+    <Compile Remove="ForDataSeeding\FinAccountsPopulator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\OneDotLearnCore\OneDotLearnCore.csproj" />
+  </ItemGroup>
+
+</Project>
