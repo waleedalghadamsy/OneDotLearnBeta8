@@ -25,9 +25,8 @@ namespace OneDotLearnData
         #region Properties
         public static LoggerDataHelper Instance => singleton.Value;
         public string ConnectionString =>  //{ get; set; }
-            "User ID = onedotlearn; Password = AaBbCcDd123; Server = localhost; "
-            + "Port = 5432; Database = OneDotLearnLogDB; Integrated Security = true; "
-            + "Pooling = true; timeout=500; commandtimeout=500";
+            "User ID = onedotlearn; Password = AaBbCcDd123; Host = localhost; "
+            + "Port = 5432; Database = OneDotLearnLogDB; Pooling = true; timeout=500; commandtimeout=500";
         public LoggingDataContext DbCtx { get; set; }
         public LoggingDataRepository<RequestedPage> RequestedPages => 
                                         new LoggingDataRepository<RequestedPage>(DbCtx);

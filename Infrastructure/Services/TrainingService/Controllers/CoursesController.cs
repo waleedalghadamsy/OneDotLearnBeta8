@@ -166,7 +166,7 @@ namespace TrainingService.Controllers
                             CourseId = rslt.AddedEntityId,
                             Content = cnt,
                             CreatedById = newCourse.CreatedById,
-                            CreatedOn = DateTime.Now,
+                            CreatedOn = $"{DateTime.Now.ToString("dd-mm-yyyy hh:mm:ss.ffff")}",
                             EntityStatus = EntityStatus.Active
                         });
 
@@ -177,7 +177,7 @@ namespace TrainingService.Controllers
                             CourseId = rslt.AddedEntityId,
                             InstructorId = instr.Id,
                             CreatedById = newCourse.CreatedById,
-                            CreatedOn = DateTime.Now,
+                            CreatedOn = $"{DateTime.Now.ToString("dd-mm-yyyy hh:mm:ss.ffff")}",
                             EntityStatus = EntityStatus.Active
                         });
 
@@ -224,7 +224,7 @@ namespace TrainingService.Controllers
                         CourseId = course.Id,
                         Content = cnt,
                         CreatedById = course.CreatedById,
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = $"{DateTime.Now.ToString("dd-mm-yyyy hh:mm:ss.ffff")}",
                         EntityStatus = EntityStatus.Active
                     });
 

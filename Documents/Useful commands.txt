@@ -1,0 +1,13 @@
+set-location "C:\Users\walee\source\repos\AssahmTicketsBeta1\3 Presentation\Web\AssahmTicketsWebApp\"
+
+dotnet ef migrations add AssahmTicketsMigration --context AssahmDataContext --startup-project ..\AssahmTicketsDataDmy
+
+dotnet ef migrations add AssahmLoggerMigration --context LoggingDataContext --startup-project ..\AssahmTicketsDataDmy
+
+dotnet ef database update --context AssahmDataContext --startup-project ..\AssahmTicketsDataDmy
+
+dotnet ef database update --context LoggingDataContext --startup-project ..\AssahmTicketsDataDmy
+
+dotnet publish -c release -o "C:\For Waleed\Personal\Deployment Area\AssahmWebApp"
+
+dotnet .\AssahmTicketsWebApp.dll

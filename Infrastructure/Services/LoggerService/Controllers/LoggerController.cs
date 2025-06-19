@@ -10,12 +10,13 @@ namespace LoggerService.Controllers
     public class LoggerController : ControllerBase
     {
         #region Data Members
+        private LoggerDataHelper logDatHlpr;
         #endregion
 
         #region Constructors
-        public LoggerController(OneDotLearnData.LoggingDataContext dbCtx)
+        public LoggerController(LoggingDataContext logCtx)
         {
-            LoggerDataHelper.Instance.DataContext = dbCtx;
+            logDatHlpr = LoggerDataHelper.Instance; logDatHlpr.DbCtx = logCtx;
         }
         #endregion
 
@@ -29,7 +30,7 @@ namespace LoggerService.Controllers
         {
             try
             {
-                await LoggerDataHelper.Instance.LogAsync(debugEvent);
+                await logDatHlpr.LogAsync(debugEvent);
             }
             catch (Exception ex)
             {
@@ -44,7 +45,7 @@ namespace LoggerService.Controllers
         {
             try
             {
-                await LoggerDataHelper.Instance.LogAsync(errorEvent);
+                await logDatHlpr.LogAsync(errorEvent);
             }
             catch (Exception ex)
             {
@@ -59,11 +60,11 @@ namespace LoggerService.Controllers
         {
             try
             {
-                return await LoggerDataHelper.Instance.GetLastNLogEventsAsync(nLogEvents);
+                return await logDatHlpr.GetLastNLogEventsAsync(nLogEvents);
             }
             catch (Exception ex)
             {
-                await LoggerDataHelper.Instance.LogErrorAsync(ex);
+                await logDatHlpr.LogErrorAsync(ex);
                 throw;
             }
         }
@@ -74,11 +75,11 @@ namespace LoggerService.Controllers
         {
             try
             {
-                return await LoggerDataHelper.Instance.GetLogEventAsync(lgEvId);
+                return await logDatHlpr.GetLogEventAsync(lgEvId);
             }
             catch (Exception ex)
             {
-                await LoggerDataHelper.Instance.LogErrorAsync(ex);
+                await logDatHlpr.LogErrorAsync(ex);
                 throw;
             }
         }
@@ -89,11 +90,11 @@ namespace LoggerService.Controllers
         {
             try
             {
-                return await LoggerDataHelper.Instance.GetLastNErrorEventsAsync(nErrEvents);
+                return await logDatHlpr.GetLastNErrorEventsAsync(nErrEvents);
             }
             catch (Exception ex)
             {
-                await LoggerDataHelper.Instance.LogErrorAsync(ex);
+                await logDatHlpr.LogErrorAsync(ex);
                 throw;
             }
         }
@@ -104,11 +105,11 @@ namespace LoggerService.Controllers
         {
             try
             {
-                return await LoggerDataHelper.Instance.GetErrorEventAsync(errEvId);
+                return await logDatHlpr.GetErrorEventAsync(errEvId);
             }
             catch (Exception ex)
             {
-                await LoggerDataHelper.Instance.LogErrorAsync(ex);
+                await logDatHlpr.LogErrorAsync(ex);
                 throw;
             }
         }

@@ -8,8 +8,6 @@ using OneDotLearnCore.Security;
 using OneDotLearnCore.Training;
 using OneDotLearnCore.Financials;
 using OneDotLearnCore.People;
-using OneDotLearnData.CoursesSeeding;
-using OneDotLearnData.ForDataSeeding;
 using OneDotLearnCore.Blog;
 
 namespace OneDotLearnData
@@ -31,6 +29,9 @@ namespace OneDotLearnData
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<CurrencyRate> CurrenciesRates { get; set; }
+        public DbSet<EpaymentCard> EpaymentCards { get; set; }
+        public DbSet<DeliveredCardBatch> DeliveredCardBatches { get; set; }
+        public DbSet<EpConsumedCard> ConsumedCards { get; set; }
         //public DbSet<Account> Accounts { get; set; }
         //public DbSet<JournalEntry> Journal { get; set; }
         //public DbSet<Invoice> Invoices { get; set; }
@@ -40,7 +41,7 @@ namespace OneDotLearnData
         public DbSet<Course> Courses { get; set; }
         //public DbSet<Package> Packages { get; set; }
         //public DbSet<Prerequisite> Prerequisites { get; set; }
-        public DbSet<ProductDomain> Categories { get; set; }
+        public DbSet<ProductDomain> Domains { get; set; }
         public DbSet<CourseContent> CoursesContents { get; set; }
         //public DbSet<PackageCourse> PackagesCourses { get; set; }
         //public DbSet<ProductFees> ProductsFees { get; set; }
@@ -782,7 +783,7 @@ namespace OneDotLearnData
         //09-12 14-17 19 - 22
         private void AddCourses(ModelBuilder modelBuilder)
         {
-            var newCntStartId = SwDevCoursesPopulator.AddCourses(modelBuilder, 1);
+            //var newCntStartId = SwDevCoursesPopulator.AddCourses(modelBuilder, 1);
             //newCntStartId = WebDesignCoursesPopulator.AddCourses(modelBuilder, newCntStartId);
             //newCntStartId = GraphicsCoursesPopulator.AddCourses(modelBuilder, newCntStartId);
             //newCntStartId = DataScienceCoursesPopulator.AddCourses(modelBuilder, newCntStartId);

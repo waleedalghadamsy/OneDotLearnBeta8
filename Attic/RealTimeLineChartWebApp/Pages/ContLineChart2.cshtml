@@ -1,0 +1,15 @@
+﻿@page
+@model RealTimeLineChartWebApp.Pages.ContLineChart2Model
+@{
+}
+
+<h1>Real-Time Line Chart</h1>
+<img id="chart" src="?handler=Chart" alt="Real-time chart" />
+
+<script>
+    // Refresh image every 1.5 seconds for smooth real-time effect
+    setInterval(() => {
+        const img = document.getElementById('chart');
+        img.src = `?handler=Chart&ts=${Date.now()}`;
+    }, 1500);
+</script>

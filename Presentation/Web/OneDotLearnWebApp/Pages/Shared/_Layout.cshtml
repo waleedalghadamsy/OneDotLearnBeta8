@@ -1,15 +1,40 @@
 ﻿<!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - شركة أول المستقبل للتدريب</title>
+    @{
+        var description = ViewData["Description"] as string ??
+        "شركة أول المستقبل للتدريب – أفضل الدورات لتطوير مهاراتك المهنية والتقنية.";
+    }
+    <meta name="description" content="@description" />
+    <meta property="og:site_name" content="شركة أول المستقبل للتدريب" />
+    <meta property="og:title" content="@(ViewData["Title"] ?? "أول المستقبل للتدريب")" />
+    <meta property="og:description" content="@description" />
+    <meta property="og:url" content="@(Context.Request.Scheme)://@(Context.Request.Host)@(Context.Request.Path)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="@(Context.Request.Scheme)://@(Context.Request.Host)/images/og-image.png" />
+    
+    @{
+                var twitterHandle = "@YourTwitterHandle"; // Replace with your actual Twitter handle
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twitterHandle" />
+    <meta name="twitter:title" content="@(ViewData["Title"] ?? "أول المستقبل للتدريب")" />
+    <meta name="twitter:description" content="@description" />
+    <meta name="twitter:image" content="@(Context.Request.Scheme)://@(Context.Request.Host)/images/twitter-card.png" />
+
+    <title>
+        @(ViewData["Title"] != null
+                ? $"{ViewData["Title"]} – شركة أول المستقبل للتدريب"
+                : "شركة أول المستقبل للتدريب")
+    </title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OneDotLearnWebApp.styles.css" asp-append-version="true" />
     <link rel="icon" href="~/Logo.png" />
 </head>
-<body dir="rtl">
+<body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -27,13 +52,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Courses/Index">الدورات</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Trainees/Registration">التسجيل</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Trainees/Add">إنشاء حساب</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Security/SignIn">الدخول</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">سياسة الخصوصية</a>
                         </li>
                     </ul>
                 </div>
@@ -48,7 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - أول المستقبل للتدريب - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - أول المستقبل للتدريب - <a asp-area="" asp-page="/Privacy">سياسة الخصوصية</a>
         </div>
     </footer>
 

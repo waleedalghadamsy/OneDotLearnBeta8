@@ -1,0 +1,16 @@
+﻿@page
+@model RealTimeLineChartWebApp.Pages.LineChartExampleModel
+@{
+}
+
+<h1>Real-Time Line Chart</h1>
+<img id="chart" src="?handler=Chart" alt="Real-time chart" />
+
+<script>
+    // Refresh image every second for real-time effect
+    setInterval(() => {
+        const img = document.getElementById('chart');
+        // Append timestamp to bust cache
+        img.src = `?handler=Chart&ts=${Date.now()}`;
+    }, 1000);
+</script>

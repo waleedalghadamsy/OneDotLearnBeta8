@@ -69,7 +69,7 @@ namespace PeopleService.Controllers
 
                 if (trnItrsts != null && trnItrsts.Any())
                 {
-                    var cts = await odlDatHlpr.Categories.GetAsync(
+                    var cts = await odlDatHlpr.Domains.GetAsync(
                                             ct => trnItrsts.Any(ti => ti.CategoryId == ct.Id));
 
                     //trn.Interests = cts != null && cts.Any() ? cts.ToList() : null;

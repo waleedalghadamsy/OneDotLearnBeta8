@@ -35,4 +35,10 @@ namespace OneDotLearnCore.Financials
     {
         BankTransfer = 1, WesternUnion, Cash
     }
+
+    public enum CardValueGroup
+    {
+        FiftyDinars = 50, SeventyFiveDinars = 75, OneHundredDinars = 100, TwoHundredDinars = 200, 
+        FiveHundredDinars = 500, OneThousandDinars = 1000
+    }
 }
